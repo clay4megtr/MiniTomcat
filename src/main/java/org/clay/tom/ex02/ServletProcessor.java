@@ -1,6 +1,6 @@
 package org.clay.tom.ex02;
 
-import com.sun.org.apache.bcel.internal.classfile.Constant;
+import com.sun.org.apache.regexp.internal.RE;
 
 import javax.servlet.Servlet;
 import javax.servlet.ServletRequest;
@@ -11,7 +11,7 @@ import java.net.URLClassLoader;
 import java.net.URLStreamHandler;
 import java.io.File;
 
-public class ServletProcessor1 {
+public class ServletProcessor {
 
     public void process(Request request, Response response) {
         String uri = request.getUri();
@@ -37,9 +37,17 @@ public class ServletProcessor1 {
             e.printStackTrace();
         }
         Servlet servlet = null;
+        RequestFacade requestFacade = new RequestFacade(request);
+        ResponseFacade responseFacade = new ResponseFacade(response);
+
         try{
             servlet = (Servlet) myClass.newInstance();
-            servlet.service((ServletRequest) request, (ServletResponse) response);
+            servlet.service((ServletRequest) requestFacade, (ServletResponse) responseFacade);
+
+            // servlet.service((ServletRequest) request, (ServletResponse) response);
+            //安全问题：知道这个servlet容器的内部运作的Servlet程序员可以分别把ServletRequest和ServletResponse实例向下转换为
+            // ex02.pyrmont.Request和ex02.pyrmont.Response，并调用他们的公共方法。
+            // 拥有一个Request实例，它们就可以调用parse方法。拥有一个Response实例，就可以调用sendStaticResource方法。
         }catch (Exception e){
             e.printStackTrace();
         }catch (Throwable e){

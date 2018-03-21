@@ -7,7 +7,7 @@ import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-public class HttpServer1 {
+public class HttpServer {
 
     //shut down
     private static final String SHUTDOWN_COMMAND = "/SHUTDOWN";
@@ -15,7 +15,7 @@ public class HttpServer1 {
     private boolean shutdown = false;
 
     public static void main(String[] args) {
-        HttpServer1 server = new HttpServer1();
+        HttpServer server = new HttpServer();
         server.await();
     }
 
@@ -52,7 +52,7 @@ public class HttpServer1 {
 
                 //检查到底是在请求一个servlet还是请求一个静态资源
                 if(request.getUri().startsWith("/servlet/")){
-                    ServletProcessor1 processor = new ServletProcessor1();
+                    ServletProcessor processor = new ServletProcessor();
                     processor.process(request,response);
                 }else{
                     StaticResourceProcessor processor = new StaticResourceProcessor();
