@@ -1,5 +1,3 @@
-package org.clay.tom.ex02;
-
 import javax.servlet.*;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -21,7 +19,7 @@ public class PrimitiveServlet implements Servlet{
     public void service(ServletRequest req, ServletResponse response) throws ServletException, IOException {
 
         System.out.println("from service");
-        PrintWriter out = response.getWriter();//是从response中获得PrintWriter对象的，response中的writer对象是自己创建的（针对server.getOutputStream）
+        PrintWriter out = response.getWriter();
         String msg = "HTTP/1.1 200 OK\r\n" +
                 "Content-Type: text/html\r\n" +
                 "\r\n";

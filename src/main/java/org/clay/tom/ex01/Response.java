@@ -30,6 +30,14 @@ public class Response {
             if(file.exists()){
                 fis = new FileInputStream(file);
                 int length = fis.read(bufffer,0,BUFFER_SIZE);  //把对应的静态文件内容读取到bytes数组中,先读这么多
+
+                /**
+                 * 告诉浏览器采用HTTP协议，否则浏览器报错：ERR_INVALID_HTTP_RESPONSE
+                 */
+                String msg = "HTTP/1.1 200 OK\r\n" +
+                        "Content-Type: text/html\r\n" +
+                        "\r\n";
+                output.write(msg.getBytes());
                 while(length != -1){
                     output.write(bufffer,0,length);
                     length = fis.read(bufffer,0,BUFFER_SIZE);  //如果没有读完，继续读
@@ -52,6 +60,14 @@ public class Response {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+            }
+            if(output != null){
+                try {
+                    output.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
             }
         }
     }

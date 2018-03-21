@@ -31,6 +31,15 @@ public class Response implements ServletResponse {
             File file = new File(Constants.WEB_ROOT, request.getUri());
             fis = new FileInputStream(file);
             int ch = fis.read(bufffer, 0, BUFFER_SIZE);  //把对应的静态文件内容读取到bytes数组中,先读这么多
+
+            /**
+             * 告诉浏览器采用HTTP协议，否则浏览器报错：ERR_INVALID_HTTP_RESPONSE
+             */
+            String msg = "HTTP/1.1 200 OK\r\n" +
+                    "Content-Type: text/html\r\n" +
+                    "\r\n";
+            output.write(msg.getBytes());
+
             while (ch != -1) {
                 output.write(bufffer, 0, ch);
                 ch = fis.read(bufffer, 0, BUFFER_SIZE);
